@@ -12,19 +12,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 
-public class GridTest {
+public class NeighbourCounterTest {
     @Test
     public void testFindAliveCellsWith2NeighboursNonFound() {
         final Set<XY> cellWithinOrigin = new HashSet<>(Arrays.asList(XYPosition.ORIGIN.xy(), XYPosition.RIGHT.xy()));
-        assertEquals(0, new Grid(cellWithinOrigin).findAliveCellsWithNumNeighbours(2).size());
+        assertEquals(0, new NeighbourCounter(cellWithinOrigin).findAliveCellsWithNumNeighbours(2).size());
     }
 
 
     @Test
     public void testFindAliveCellsWith2Neighbours() {
         final Set<XY> cellWithinOrigin = new HashSet<>(Arrays.asList(XYPosition.ORIGIN.xy(), XYPosition.RIGHT.xy(), XYPosition.LEFT.xy()));
-        assertEquals(1, new Grid(cellWithinOrigin).findAliveCellsWithNumNeighbours(2).size());
-        assertThat(new Grid(cellWithinOrigin).findAliveCellsWithNumNeighbours(2), hasItems(XYPosition.ORIGIN.xy()));
+        assertEquals(1, new NeighbourCounter(cellWithinOrigin).findAliveCellsWithNumNeighbours(2).size());
+        assertThat(new NeighbourCounter(cellWithinOrigin).findAliveCellsWithNumNeighbours(2), hasItems(XYPosition.ORIGIN.xy()));
     }
 
     @Test
@@ -32,21 +32,21 @@ public class GridTest {
         XY secondGroupOrigin = new XY(0, 20);
         final Set<XY> cellWithinOrigin = new HashSet<>(Arrays.asList(XYPosition.ORIGIN.xy(), XYPosition.RIGHT.xy(), XYPosition.LEFT.xy(),
                 secondGroupOrigin, XYPosition.RIGHT.getNeighbourPos(secondGroupOrigin), XYPosition.LEFT.getNeighbourPos(secondGroupOrigin)));
-        assertEquals(2, new Grid(cellWithinOrigin).findAliveCellsWithNumNeighbours(2).size());
-        assertThat(new Grid(cellWithinOrigin).findAliveCellsWithNumNeighbours(2), hasItems(XYPosition.ORIGIN.xy(), secondGroupOrigin));
+        assertEquals(2, new NeighbourCounter(cellWithinOrigin).findAliveCellsWithNumNeighbours(2).size());
+        assertThat(new NeighbourCounter(cellWithinOrigin).findAliveCellsWithNumNeighbours(2), hasItems(XYPosition.ORIGIN.xy(), secondGroupOrigin));
     }
 
     @Test
     public void testFindNoDeadCellsWith3Neighbours() {
         final Set<XY> cellWithinOrigin = new HashSet<>(Arrays.asList(XYPosition.ORIGIN.xy(), XYPosition.RIGHT.xy()));
-        assertEquals(0, new Grid(cellWithinOrigin).findDeadCellsWithNumNeighbours(3).size());
+        assertEquals(0, new NeighbourCounter(cellWithinOrigin).findDeadCellsWithNumNeighbours(3).size());
     }
 
     @Test
     public void testFindTopRightDeadCellsWith3Neighbours() {
         final Set<XY> cellWithinOrigin = new HashSet<>(Arrays.asList(XYPosition.ORIGIN.xy(), XYPosition.RIGHT.xy(), XYPosition.TOP.xy()));
-        assertEquals(1, new Grid(cellWithinOrigin).findDeadCellsWithNumNeighbours(3).size());
-        assertThat(new Grid(cellWithinOrigin).findDeadCellsWithNumNeighbours(3), hasItems(XYPosition.TOP_RIGHT.xy()));
+        assertEquals(1, new NeighbourCounter(cellWithinOrigin).findDeadCellsWithNumNeighbours(3).size());
+        assertThat(new NeighbourCounter(cellWithinOrigin).findDeadCellsWithNumNeighbours(3), hasItems(XYPosition.TOP_RIGHT.xy()));
 
     }
 }

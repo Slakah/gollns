@@ -3,10 +3,10 @@ package com.gubbns.gollns;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Grid {
+public class NeighbourCounter {
     private final Set<XY> aliveCells;
 
-    public Grid(Set<XY> aliveCells) {
+    public NeighbourCounter(Set<XY> aliveCells) {
         this.aliveCells = Collections.unmodifiableSet(aliveCells);
     }
 

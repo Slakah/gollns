@@ -12,16 +12,11 @@ public class GameStep {
     }
 
     public Set<XY> step() {
-        final Grid grid = new Grid(aliveCells);
+        final NeighbourCounter neighbourCounter = new NeighbourCounter(aliveCells);
         final HashSet<XY> aliveCellsAfterStep = new HashSet<>();
-        aliveCellsAfterStep.addAll(grid.findAliveCellsWithNeighbours(2, 3));
+        aliveCellsAfterStep.addAll(neighbourCounter.findAliveCellsWithNumNeighbours(2, 3));
 
         return aliveCellsAfterStep;
     }
 
-    private boolean shouldCellBeDeadAfterStep(final Grid grid, final XY cell) {
-        final LifeRule lifeRule = new LifeRule();
-        final int numAliveNeighbours = grid.countAliveNeighbours(cell);
-        return lifeRule.test(numAliveNeighbours);
-    }
 }
