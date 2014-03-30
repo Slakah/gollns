@@ -1,51 +1,46 @@
 package com.gubbns.gollns;
 
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.gubbns.gollns.XYPosition.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 public class GameStepTest {
     @Test
     public void testSingleCellDies() {
-        Set<XY> singleCell = new HashSet<>(Arrays.asList(XYPosition.ORIGIN.xy()));
+        Set<XY> singleCell = new HashSet<>(Arrays.asList(ORIGIN.xy()));
         assertEquals(0, new GameStep(singleCell).step().size());
     }
 
     @Test
-    public void testCellWithNeighbourDies() {
-        Set<XY> singleCell = new HashSet<>(Arrays.asList(XYPosition.ORIGIN.xy(), XYPosition.TOP.xy()));
+    public void test2CellGroupDies() {
+        Set<XY> singleCell = new HashSet<>(Arrays.asList(ORIGIN.xy(), TOP.xy()));
         assertEquals(0, new GameStep(singleCell).step().size());
     }
 
     @Test
-    public void test2NeighbourCellsOneAlive() {
-        Set<XY> cellsPreStep = new HashSet<>(Arrays.asList(XYPosition.ORIGIN.xy(), XYPosition.TOP.xy(), XYPosition.BOTTOM.xy()));
-        Set<XY> cellsPostStep = new GameStep(cellsPreStep).step();
-        assertThat(cellsPostStep, CoreMatchers.hasItems(XYPosition.ORIGIN.xy()));
-        assertEquals(1, cellsPostStep.size());
+    public void test4CellBlockStill() {
+        Set<XY> block = new HashSet<>(Arrays.asList(ORIGIN.xy(), RIGHT.xy(), BOTTOM_RIGHT.xy(), BOTTOM.xy()));
+        assertEquals(block, new GameStep(block).step());
     }
 
     @Test
-    public void test4NeighbourCellsOriginOverpopulated() {
-        Set<XY> cellsPreStep = new HashSet<>(Arrays.asList(XYPosition.ORIGIN.xy(), XYPosition.TOP.xy(), XYPosition.BOTTOM.xy(), XYPosition.LEFT.xy(), XYPosition.RIGHT.xy()));
-        Set<XY> cellsPostStep = new GameStep(cellsPreStep).step();
-        assertThat(cellsPostStep, CoreMatchers.hasItems(XYPosition.TOP.xy(), XYPosition.BOTTOM.xy(), XYPosition.LEFT.xy(), XYPosition.RIGHT.xy()));
-        assertEquals(4, cellsPostStep.size());
+    public void testPlusSymbolToSquareStep() {
+        Set<XY> plusSymbol = new HashSet<>(Arrays.asList(ORIGIN.xy(), TOP.xy(), BOTTOM.xy(), LEFT.xy(), RIGHT.xy()));
+        Set<XY> square = new HashSet<>(Arrays.asList(TOP.xy(), BOTTOM.xy(), LEFT.xy(), RIGHT.xy(), TOP_RIGHT.xy(), BOTTOM_RIGHT.xy(), BOTTOM_LEFT.xy(), TOP_LEFT.xy()));
+        assertEquals(square, new GameStep(plusSymbol).step());
     }
 
     @Test
-    public void test4NeighbourCellsAndOneFarRightOriginAndRightOverpopulated() {
-        Set<XY> cellsPreStep = new HashSet<>(Arrays.asList(XYPosition.ORIGIN.xy(), XYPosition.TOP.xy(), XYPosition.BOTTOM.xy(), XYPosition.LEFT.xy(), XYPosition.RIGHT.xy(), new XY(2, 0)));
-        Set<XY> cellsPostStep = new GameStep(cellsPreStep).step();
-        assertThat(cellsPostStep, CoreMatchers.hasItems(XYPosition.TOP.xy(), XYPosition.BOTTOM.xy(), XYPosition.LEFT.xy()));
-        assertEquals(3, cellsPostStep.size());
+    public void testHorizontalLineToVerticalLineStep() {
+        Set<XY> horizontalLine = new HashSet<>(Arrays.asList(ORIGIN.xy(), LEFT.xy(), RIGHT.xy()));
+        Set<XY> verticalLine = new HashSet<>(Arrays.asList(ORIGIN.xy(), TOP.xy(), BOTTOM.xy()));
+        assertEquals(verticalLine, new GameStep(horizontalLine).step());
     }
 
 }

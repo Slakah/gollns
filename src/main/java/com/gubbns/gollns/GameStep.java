@@ -14,9 +14,18 @@ public class GameStep {
     public Set<XY> step() {
         final NeighbourCounter neighbourCounter = new NeighbourCounter(aliveCells);
         final HashSet<XY> aliveCellsAfterStep = new HashSet<>();
-        aliveCellsAfterStep.addAll(neighbourCounter.findAliveCellsWithNumNeighbours(2, 3));
 
+        aliveCellsAfterStep.addAll(getCellsWhichSurvive(neighbourCounter));
+        aliveCellsAfterStep.addAll(getReproductionCells(neighbourCounter));
         return aliveCellsAfterStep;
+    }
+
+    private Set<XY> getCellsWhichSurvive(final NeighbourCounter neighbourCounter) {
+        return neighbourCounter.findAliveCellsWithNumNeighbours(2, 3);
+    }
+
+    private Set<XY> getReproductionCells(final NeighbourCounter neighbourCounter) {
+        return neighbourCounter.findDeadCellsWithNumNeighbours(3);
     }
 
 }
